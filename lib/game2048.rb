@@ -103,8 +103,8 @@ module Game2048
       end
       texts_y4.each do |y4|
         tbase3 = @texts.find { |t| t.x == y4.x and t.y == @num_y3 }
-        if tbase3.present? and tbase3.text.to_i == y4.text
-          tbase3.text = tbase3.text * 2
+        if tbase3.present? and tbase3.text == y4.text
+          tbase3.text = tbase3.text.to_i * 2
           y4.remove
           @texts.delete(y4)
         end
@@ -142,9 +142,7 @@ module Game2048
           puts "l right"
         when 'k', 'up'
           upwardly_rearrange
-          sleep 0.5
           upwardly_merge_adjacent_nums
-          sleep 0.5
           upwardly_rearrange
         when 'j', 'down'
           puts "j down"
