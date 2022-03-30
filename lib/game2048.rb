@@ -37,6 +37,7 @@ module Game2048
     def initialize
       @new_color = "gray"
       @added_color = "blue"
+      @merged_color = "green"
       @texts = []
       @num_x1, @num_x2, @num_x3, @num_x4 = 20, 120, 220, 320
       @num_y1, @num_y2, @num_y3, @num_y4 = 10, 110, 210, 310
@@ -69,28 +70,28 @@ module Game2048
       Window.on :key_down do |event|
         case event.key
         when 'h', 'left'
+          change_to_blue
           leftwardly_rearrange
           leftwardly_merge_adjacent_nums
           leftwardly_rearrange
-          change_to_blue
           gen_random_text!
         when 'l', 'right'
+          change_to_blue
           rightwardly_rearrange
           rightwardly_merge_adjacent_nums
           rightwardly_rearrange
-          change_to_blue
           gen_random_text!
         when 'k', 'up'
+          change_to_blue
           upwardly_rearrange
           upwardly_merge_adjacent_nums
           upwardly_rearrange
-          change_to_blue
           gen_random_text!
         when 'j', 'down'
+          change_to_blue
           downwardly_rearrange
           downwardly_merge_adjacent_nums
           downwardly_rearrange
-          change_to_blue
           gen_random_text!
         when 'n'
           gen_random_text!
@@ -131,6 +132,7 @@ module Game2048
         tbase1 = @texts.find { |t| t.y == x2.y and t.x == @num_x1 }
         if tbase1.present? and tbase1.text == x2.text
           tbase1.text = tbase1.text.to_i * 2
+          tbase1.color = @merged_color
           x2.remove
           @texts.delete(x2)
         end
@@ -139,6 +141,7 @@ module Game2048
         tbase2 = @texts.find { |t| t.y == x3.y and t.x == @num_x2 }
         if tbase2.present? and tbase2.text == x3.text
           tbase2.text = tbase2.text.to_i * 2
+          tbase2.color = @merged_color
           x3.remove
           @texts.delete(x3)
         end
@@ -147,6 +150,7 @@ module Game2048
         tbase3 = @texts.find { |t| t.y == x4.y and t.x == @num_x3 }
         if tbase3.present? and tbase3.text == x4.text
           tbase3.text = tbase3.text.to_i * 2
+          tbase3.color = @merged_color
           x4.remove
           @texts.delete(x4)
         end
@@ -157,6 +161,7 @@ module Game2048
         tbase = @texts.find { |t| t.x == y2.x and t.y == @num_y1 }
         if tbase.present? and tbase.text == y2.text
           tbase.text = tbase.text.to_i * 2
+          tbase.color = @merged_color
           y2.remove
           @texts.delete(y2)
         end
@@ -165,6 +170,7 @@ module Game2048
         tbase2 = @texts.find { |t| t.x == y3.x and t.y == @num_y2 }
         if tbase2.present? and tbase2.text == y3.text
           tbase2.text = tbase2.text.to_i * 2
+          tbase2.color = @merged_color
           y3.remove
           @texts.delete(y3)
         end
@@ -173,6 +179,7 @@ module Game2048
         tbase3 = @texts.find { |t| t.x == y4.x and t.y == @num_y3 }
         if tbase3.present? and tbase3.text == y4.text
           tbase3.text = tbase3.text.to_i * 2
+          tbase3.color = @merged_color
           y4.remove
           @texts.delete(y4)
         end
@@ -183,6 +190,7 @@ module Game2048
         tbase4 = @texts.find { |t| t.x == y3.x and t.y == @num_y4 }
         if tbase4.present? and tbase4.text == y3.text
           tbase4.text = tbase4.text.to_i * 2
+          tbase4.color = @merged_color
           y3.remove
           @texts.delete(y3)
         end
@@ -191,6 +199,7 @@ module Game2048
         tbase3 = @texts.find { |t| t.x == y2.x and t.y == @num_y3 }
         if tbase3.present? and tbase3.text == y2.text
           tbase3.text = tbase3.text.to_i * 2
+          tbase3.color = @merged_color
           y2.remove
           @texts.delete(y2)
         end
@@ -199,6 +208,7 @@ module Game2048
         tbase2 = @texts.find { |t| t.x == y1.x and t.y == @num_y2 }
         if tbase2.present? and tbase2.text == y1.text
           tbase2.text = tbase2.text.to_i * 2
+          tbase2.color = @merged_color
           y1.remove
           @texts.delete(y1)
         end
@@ -209,6 +219,7 @@ module Game2048
         tbase4 = @texts.find { |t| t.y == x3.y and t.x == @num_x4 }
         if tbase4.present? and tbase4.text == x3.text
           tbase4.text = tbase4.text.to_i * 2
+          tbase4.color = @merged_color
           x3.remove
           @texts.delete(x3)
         end
@@ -217,6 +228,7 @@ module Game2048
         tbase3 = @texts.find { |t| t.y == x2.y and t.x == @num_x3 }
         if tbase3.present? and tbase3.text == x2.text
           tbase3.text = tbase3.text.to_i * 2
+          tbase3.color = @merged_color
           x2.remove
           @texts.delete(x2)
         end
@@ -225,6 +237,7 @@ module Game2048
         tbase2 = @texts.find { |t| t.y == x1.y and t.x == @num_x2 }
         if tbase2.present? and tbase2.text == x1.text
           tbase2.text = tbase2.text.to_i * 2
+          tbase2.color = @merged_color
           x1.remove
           @texts.delete(x1)
         end
