@@ -7,6 +7,9 @@ require 'pry'
 module Game2048
   class Error < StandardError; end
   class Main
+    def change_to_blue
+      @texts.each { |e| e.color = "blue" }
+    end
     def all_two_dim_arys
       arys = []
       xs = [@num_x1, @num_x2, @num_x3, @num_x4]
@@ -32,7 +35,7 @@ module Game2048
     end
 
     def initialize
-      @new_color = "red"
+      @new_color = "gray"
       @added_color = "blue"
       @texts = []
       @num_x1, @num_x2, @num_x3, @num_x4 = 20, 120, 220, 320
@@ -69,21 +72,25 @@ module Game2048
           leftwardly_rearrange
           leftwardly_merge_adjacent_nums
           leftwardly_rearrange
+          change_to_blue
           gen_random_text!
         when 'l', 'right'
           rightwardly_rearrange
           rightwardly_merge_adjacent_nums
           rightwardly_rearrange
+          change_to_blue
           gen_random_text!
         when 'k', 'up'
           upwardly_rearrange
           upwardly_merge_adjacent_nums
           upwardly_rearrange
+          change_to_blue
           gen_random_text!
         when 'j', 'down'
           downwardly_rearrange
           downwardly_merge_adjacent_nums
           downwardly_rearrange
+          change_to_blue
           gen_random_text!
         when 'n'
           gen_random_text!
