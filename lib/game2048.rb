@@ -1,6 +1,6 @@
 require "game2048/version"
 require 'ruby2d'
-require 'active_support/all'
+require 'active_support/core_ext/object/blank'
 require 'pry'
 
 
@@ -25,21 +25,27 @@ module Game2048
     end
 
     def you_win
-      Text.new("YOU WIN!!!", size: 50, style: 'bold', color: "red", z: 100, x: 20, y: 150)
+      @you_win = Text.new("YOU WIN!!!", size: 50, style: 'bold', color: "red", z: 100, x: 20, y: 150)
     end
     def you_lose
-      Text.new("YOU LOSE!!!", size: 50, style: 'bold', color: "red", z: 100, x: 20, y: 150)
+      @you_lose = Text.new("YOU LOSE!!!", size: 50, style: 'bold', color: "red", z: 100, x: 20, y: 150)
     end
 
     def gen_random_text
-      return you_lose if unused_two_dim_arys.empty?
+      return you_lose if unused_two_dim_arys.blank?
       xy = unused_two_dim_arys.shuffle.first
-      Text.new(2, size: 60, style: 'bold', color: @new_color, z: 10,
-               x: xy[0],
-               y: xy[1])
+      new_num = Text.new(2, size: 25, style: 'bold', color: @new_color, z: 10,
+                         x: xy[0],
+                         y: xy[1])
+      new_num.text = [256, 512, 2].shuffle.first if @easy_mode
+      new_num
     end
     def gen_random_text!
       @texts << gen_random_text
+    end
+
+    def turn_on_easy_mode
+      @easy_mode = 1
     end
 
     def initialize
@@ -74,34 +80,39 @@ module Game2048
       Window.on :key_down do |event|
         case event.key
         when 'h', 'left'
+          return if @you_win or @you_lose
           change_to_blue
           leftwardly_rearrange
           leftwardly_merge_adjacent_nums
-          return you_win if @texts.find { |e| e.text == "2048" }
+          you_win if @texts.find { |e| e.text == "2048" }
           leftwardly_rearrange
           gen_random_text!
         when 'l', 'right'
+          return if @you_win or @you_lose
           change_to_blue
           rightwardly_rearrange
           rightwardly_merge_adjacent_nums
-          return you_win if @texts.find { |e| e.text == "2048" }
+          you_win if @texts.find { |e| e.text == "2048" }
           rightwardly_rearrange
           gen_random_text!
         when 'k', 'up'
+          return if @you_win or @you_lose
           change_to_blue
           upwardly_rearrange
           upwardly_merge_adjacent_nums
-          return you_win if @texts.find { |e| e.text == "2048" }
+          you_win if @texts.find { |e| e.text == "2048" }
           upwardly_rearrange
           gen_random_text!
         when 'j', 'down'
+          return if @you_win or @you_lose
           change_to_blue
           downwardly_rearrange
           downwardly_merge_adjacent_nums
-          return you_win if @texts.find { |e| e.text == "2048" }
+          you_win if @texts.find { |e| e.text == "2048" }
           downwardly_rearrange
           gen_random_text!
         when 'n'
+          return if @you_win or @you_lose
           gen_random_text!
         when 'q'
           Window.close
