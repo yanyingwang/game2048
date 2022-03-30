@@ -24,7 +24,15 @@ module Game2048
       all_two_dim_arys - text_two_dim_arys
     end
 
+    def you_win
+      Text.new("YOU WIN!!!", size: 50, style: 'bold', color: "red", z: 100, x: 20, y: 150)
+    end
+    def you_lose
+      Text.new("YOU LOSE!!!", size: 50, style: 'bold', color: "red", z: 100, x: 20, y: 150)
+    end
+
     def gen_random_text
+      return you_lose if unused_two_dim_arys.empty?
       xy = unused_two_dim_arys.shuffle.first
       Text.new(2, size: 60, style: 'bold', color: @new_color, z: 10,
                x: xy[0],
@@ -41,27 +49,23 @@ module Game2048
       @texts = []
       @num_x1, @num_x2, @num_x3, @num_x4 = 20, 120, 220, 320
       @num_y1, @num_y2, @num_y3, @num_y4 = 10, 110, 210, 310
-
       Window.set(title: "2048 Game", width: 390, height: 390)
-      @s11 = Square.new(x: 0, y: 0, size: 90)
-      @s12 = Square.new(x: 100, y: 0, size: 90)
-      @s13 = Square.new(x: 200, y: 0, size: 90)
-      @s14 = Square.new(x: 300, y: 0, size: 90)
-
-      @s21 = Square.new(x: 0, y: 100, size: 90)
-      @s22 = Square.new(x: 100, y: 100, size: 90)
-      @s23 = Square.new(x: 200, y: 100, size: 90)
-      @s24 = Square.new(x: 300, y: 100, size: 90)
-
-      @s31 = Square.new(x: 0, y: 200, size: 90)
-      @s32 = Square.new(x: 100, y: 200, size: 90)
-      @s33 = Square.new(x: 200, y: 200, size: 90)
-      @s34 = Square.new(x: 300, y: 200, size: 90)
-
-      @s41 = Square.new(x: 0, y: 300, size: 90)
-      @s42 = Square.new(x: 100, y: 300, size: 90)
-      @s43 = Square.new(x: 200, y: 300, size: 90)
-      @s44 = Square.new(x: 300, y: 300, size: 90)
+      s11 = Square.new(x: 0, y: 0, size: 90)
+      s12 = Square.new(x: 100, y: 0, size: 90)
+      s13 = Square.new(x: 200, y: 0, size: 90)
+      s14 = Square.new(x: 300, y: 0, size: 90)
+      s21 = Square.new(x: 0, y: 100, size: 90)
+      s22 = Square.new(x: 100, y: 100, size: 90)
+      s23 = Square.new(x: 200, y: 100, size: 90)
+      s24 = Square.new(x: 300, y: 100, size: 90)
+      s31 = Square.new(x: 0, y: 200, size: 90)
+      s32 = Square.new(x: 100, y: 200, size: 90)
+      s33 = Square.new(x: 200, y: 200, size: 90)
+      s34 = Square.new(x: 300, y: 200, size: 90)
+      s41 = Square.new(x: 0, y: 300, size: 90)
+      s42 = Square.new(x: 100, y: 300, size: 90)
+      s43 = Square.new(x: 200, y: 300, size: 90)
+      s44 = Square.new(x: 300, y: 300, size: 90)
     end
 
     def run
@@ -73,24 +77,28 @@ module Game2048
           change_to_blue
           leftwardly_rearrange
           leftwardly_merge_adjacent_nums
+          return you_win if @texts.find { |e| e.text == "2048" }
           leftwardly_rearrange
           gen_random_text!
         when 'l', 'right'
           change_to_blue
           rightwardly_rearrange
           rightwardly_merge_adjacent_nums
+          return you_win if @texts.find { |e| e.text == "2048" }
           rightwardly_rearrange
           gen_random_text!
         when 'k', 'up'
           change_to_blue
           upwardly_rearrange
           upwardly_merge_adjacent_nums
+          return you_win if @texts.find { |e| e.text == "2048" }
           upwardly_rearrange
           gen_random_text!
         when 'j', 'down'
           change_to_blue
           downwardly_rearrange
           downwardly_merge_adjacent_nums
+          return you_win if @texts.find { |e| e.text == "2048" }
           downwardly_rearrange
           gen_random_text!
         when 'n'
