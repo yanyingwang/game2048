@@ -62,60 +62,83 @@ module Game2048
     end
 
     def gen_random_text
-      Text.new("2", size: 60, style: 'bold', color: @new_color, z: 10,
+      Text.new(2, size: 60, style: 'bold', color: @new_color, z: 10,
                x: ([0, 100, 200, 300].shuffle.first + 20),
                y: ([0, 100, 200, 300].shuffle.first + 10))
     end
     def gen_random_text!
       @texts << gen_random_text
     end
-
+    def upwardly_merge_adjacent_nums
+      texts_y2.each do |y2|
+        tbase = @texts.find { |t| t.x == y2.x and t.y == @num_y1 }
+        if tbase.present? and tbase.text == y2.text
+          tbase.text = tbase.text.to_i * 2
+          y2.remove
+          @texts.delete(y2)
+        end
+      end
+      texts_y3.each do |y3|
+        tbase2 = @texts.find { |t| t.x == y3.x and t.y == @num_y2 }
+        if tbase2.present? and tbase2.text == y3.text
+          tbase2.text = tbase2.text.to_i * 2
+          y3.remove
+          @texts.delete(y3)
+        end
+      end
+      texts_y4.each do |y4|
+        tbase3 = @texts.find { |t| t.x == y4.x and t.y == @num_y3 }
+        if tbase3.present? and tbase3.text.to_i == y4.text
+          tbase3.text = tbase3.text * 2
+          y4.remove
+          @texts.delete(y4)
+        end
+      end
+    end
     def upwardly_rearrange
-      texts_y2.each do |t|
-        if @texts.select { |t1| t1.x == t.x and t1.y == @num_y1 }.blank?
-          t.y = @num_y1
-        end
+      texts_y2.each do |y2|
+        tbase = @texts.find { |t| t.x == y2.x and t.y == @num_y1 }
+        y2.y = @num_y1 if tbase.blank?
       end
-      texts_y3.each do |t|
-        if @texts.select { |t1| t1.x == t.x and t1.y == @num_y1 }.blank?
-          t.y = @num_y1
-        elsif @texts.select { |t1| t1.x == t.x and t1.y == @num_y2 }.blank?
-          t.y = @num_y2
-        end
+      texts_y3.each do |y3|
+        tbase2 = @texts.find { |t| t.x == y3.x and t.y == @num_y2 }
+        tbase = @texts.find { |t| t.x == y3.x and t.y == @num_y1 }
+        y3.y = @num_y2 if tbase2.blank?
+        y3.y = @num_y1 if tbase.blank?
       end
-      texts_y4.each do |t|
-        if @texts.select { |t1| t1.x == t.x and t1.y == @num_y1 }.blank?
-          t.y = @num_y1
-        elsif @texts.select { |t1| t1.x == t.x and t1.y == @num_y2 }.blank?
-          t.y = @num_y2
-        elsif @texts.select { |t1| t1.x == t.x and t1.y == @num_y3 }.blank?
-          t.y = @num_y3
-        end
+      texts_y4.each do |y4|
+        tbase3 = @texts.find { |t| t.x == y4.x and t.y == @num_y3 }
+        tbase2 = @texts.find { |t| t.x == y4.x and t.y == @num_y2 }
+        tbase = @texts.find { |t| t.x == y4.x and t.y == @num_y1 }
+        y4.y = @num_y3 if tbase3.blank?
+        y4.y = @num_y2 if tbase2.blank?
+        y4.y = @num_y1 if tbase.blank?
       end
     end
 
     def run
       gen_random_text!
       gen_random_text!
-
       Window.on :key_down do |event|
-        if event.key == 'h' # left
-        elsif event.key == "l" # right
-        elsif event.key == "k" # up
+        case event.key
+        when 'h', 'left'
+          puts "h left"
+        when 'l', 'right'
+          puts "l right"
+        when 'k', 'up'
           upwardly_rearrange
-        elsif event.key == "j" # down
-        elsif event.key == "n"
+          sleep 0.5
+          upwardly_merge_adjacent_nums
+          sleep 0.5
+          upwardly_rearrange
+        when 'j', 'down'
+          puts "j down"
+        when 'n'
           gen_random_text!
-        elsif event.key == "q"
+        when 'q'
           Window.close
         end
       end
-
-      # Window.update do
-      #   # @square.x += @x_speed
-      #   # @square.y += @y_speed
-      # end
-
       Window.show
     end
 
