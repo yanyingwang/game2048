@@ -7,6 +7,30 @@ require 'pry'
 module Game2048
   class Error < StandardError; end
   class Main
+    def all_two_dim_arys
+      arys = []
+      xs = [@num_x1, @num_x2, @num_x3, @num_x4]
+      ys = [@num_y1, @num_y2, @num_y3, @num_y4]
+      xs.each { |x| ys.each { |y| arys << [x, y] } }
+      arys
+    end
+    def text_two_dim_arys
+      @texts.map { |t| [t.x, t.y] }
+    end
+    def unused_two_dim_arys
+      all_two_dim_arys - text_two_dim_arys
+    end
+
+    def gen_random_text
+      xy = unused_two_dim_arys.shuffle.first
+      Text.new(2, size: 60, style: 'bold', color: @new_color, z: 10,
+               x: xy[0],
+               y: xy[1])
+    end
+    def gen_random_text!
+      @texts << gen_random_text
+    end
+
     def initialize
       @new_color = "red"
       @added_color = "blue"
@@ -59,15 +83,6 @@ module Game2048
     end
     def texts_x4
       @texts.select { |t| t.y == @num_x4 }
-    end
-
-    def gen_random_text
-      Text.new(2, size: 60, style: 'bold', color: @new_color, z: 10,
-               x: ([0, 100, 200, 300].shuffle.first + 20),
-               y: ([0, 100, 200, 300].shuffle.first + 10))
-    end
-    def gen_random_text!
-      @texts << gen_random_text
     end
     def upwardly_merge_adjacent_nums
       texts_y2.each do |y2|
