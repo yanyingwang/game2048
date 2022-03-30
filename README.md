@@ -3,6 +3,7 @@
 
 
 ## Installation
+As checking of https://www.ruby2d.com/learn/get-started/ for linux please `sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev`
 
 Add this line to your application's Gemfile:
 
@@ -19,14 +20,18 @@ Or install it yourself as:
     $ gem install game2048
 
 
-## Usage
+## Build
+2. as checking of https://www.ruby2d.com/learn/native/ for building a native app please `sudo apt install mruby libmruby-dev` and `ruby2d build app.rb`
+
+
+## Starting within console
 1. clone repo and bundle it, then run: `./bin/console`
 2. There are two ways starting this game:
 2.1 `g = Game2048::Main.new; g.run`, run this code on console to start the normal mode of this game.
 2.2 `g = Game2048::Main.new; g.turn_on_easy_mode; g.run` trun this code on console to start the easy mode of this game.
 3. Use `left`/`right`/`up`/`down`(for VIM user, you can use the legend way of `h`/`j`/`k`/`l` as an substitution) key to move and merge numbers in girds.
 4. check screen record:
-![playing this game](https://github.com/yanyingwang/game2048/tree/master/screenrecording/playing.webm)
+![playing this game](https://github.com/yanyingwang/game2048/tree/master/screenrecording/playing.gif)
 
 
 
