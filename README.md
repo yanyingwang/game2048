@@ -20,19 +20,15 @@ Or install it yourself as:
     $ gem install game2048
 
 
-## Build
-2. as checking of https://www.ruby2d.com/learn/native/ for building a native app please `sudo apt install mruby libmruby-dev` and `ruby2d build app.rb`
-
-
-## Starting within console
-1. clone repo and bundle it, then run: `./bin/console`
-2. There are two ways starting this game:
+## Starting this game within your console
+1. Clone repo and bundle it, then run: `./bin/console`(or require this gem on your open console).
+2. Then there are two ways starting this game:
 * `g = Game2048::Main.new; g.run`, run this code on your console to start the normal mode of this game.
 * `g = Game2048::Main.new; g.turn_on_easy_mode; g.run` trun this code on console to start the easy mode of this game.
 3. Use `left`/`right`/`up`/`down`(for VIM user, you can use the legend way of `h`/`j`/`k`/`l` as an substitution) key to move and merge numbers in girds.
 4. It is possible to type `n` key to manually generate a new num to an empty gird while you are in the middle of playing this game.
 
-## Demonstartion
+## Demonstration
 4. check screen record:
 ![playing this game](https://raw.githubusercontent.com/yanyingwang/game2048/master/screenrecording/playing.gif?token=GHSAT0AAAAAABSRINXC3G4J55QKDJ6MLHLQYSFRVTA)
 
